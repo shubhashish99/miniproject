@@ -6,29 +6,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stg.Services.TablesService;
 import com.stg.entity.Tables;
 
 @RestController
+@RequestMapping(value = "tables")
+@CrossOrigin("http://localhost:4200/")
 public class TablesController {
 	@Autowired
 	private TablesService tablesService;
 
-	@GetMapping(value = "/checkRestaurantTable", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Boolean> checkRestaurantTable(@RequestBody int tableNo) {
+	@GetMapping(value = "/findTable/{tableNo}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Tables> findTable(@PathVariable int tableNo) {
 
-		boolean check = tablesService.checkRestaurantTable(tableNo);
+		Tables check = tablesService.findTable(tableNo);
 
-		return new ResponseEntity<Boolean>(check, HttpStatus.OK);
+		return new ResponseEntity<Tables>(check, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/fetchTableList", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/fetchTableList", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Tables> fetchTableList() {
 
 		List<Tables> resTables = tablesService.fetchTableList();
@@ -36,7 +41,7 @@ public class TablesController {
 		return new ResponseEntity<Tables>((Tables) resTables, HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/addTable", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/addTable/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Tables> addTable(@RequestBody Tables resTables) {
 
 		Tables resTables1 = tablesService.addTable(resTables);
@@ -44,12 +49,12 @@ public class TablesController {
 		return new ResponseEntity<Tables>(resTables1, HttpStatus.OK);
 	}
 
-	@PutMapping(value = "/updateRestaurantTables", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Tables> updateRestaurantTables(@RequestBody Tables resTables) {
+	@PutMapping(value = "/updateTables/{tableNo}/{tableOccupanyNo}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> updateTables(@PathVariable int tableNo, @PathVariable int tableOccupanyNo) {
 
-		Tables resTables1 = tablesService.updateRestaurantTables(resTables);
+		String resTables1 = tablesService.updateTables(tableNo, tableOccupanyNo);
 
-		return new ResponseEntity<Tables>(resTables1, HttpStatus.OK);
+		return new ResponseEntity<String>(resTables1, HttpStatus.OK);
 	}
 
 }

@@ -15,7 +15,7 @@ public class CustomerServiceImpl implements CustomerService {
 	private CustomersRepository customersRepository;
 
 	@Override
-	public Customers checkCustomer(int customerId, String customerName) {
+	public Customers findCustomer(int customerId, String customerName) {
 
 		Customers customers = customersRepository.findByCustomerIdAndCustomerName(customerId, customerName);
 
@@ -42,21 +42,31 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public List<Customers> searchByIdAndCustName(int customerId, String customerName) {
+	public String updateCustomer(int customerId, String customerName, String customerEmail, String customerMobile) {
 
-		return (List<Customers>) customersRepository.findByCustomerIdAndCustomerName(customerId, customerName);
+		Customers customers = customersRepository.findByCustomerId(customerId);
+		if (customers != null) {
+			customers.setCustomerName(customerName);
+			customers.setCustomerEmail(customerEmail);
+			customers.setCustomerMobile(customerMobile);
+			customersRepository.save(customers);
+			return "Customer details updated!";
+		} else {
+
+			throw new CustomException("customer not found!");
+		}
+
 	}
 
 	@Override
-	public Customers updateCustomer(Customers customers) {
-
-		return customersRepository.save(customers);
-	}
-
-	@Override
-	public void deleteByCustId(int customerId) {
-
-		customersRepository.deleteByCustomerId(customerId);
+	public String deleteByCustomerId(int customerId) {
+		Customers customers = customersRepository.findByCustomerId(customerId);
+		if (customers != null) {
+			customersRepository.delete(customers);
+			return "customer is deleted!";
+		} else {
+			throw new CustomException("customer is not found!");
+		}
 
 	}
 }

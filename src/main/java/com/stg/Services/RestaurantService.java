@@ -1,20 +1,14 @@
 package com.stg.Services;
 
-import java.util.List;
-
 import com.stg.entity.Restaurant;
 
 public interface RestaurantService {
-	public abstract Restaurant checkRestaurant(int restaurantId);
-
-	public abstract List<Restaurant> fetchRestaurantList();
-
-	public abstract List<Restaurant> searchByRestaurantType(String restaurantType);
+	public abstract Restaurant findRestaurant(int restaurantId);
 
 	public abstract Restaurant addRestaurant(Restaurant restaurant);
 
-	public abstract Restaurant updateRestaurant(Restaurant restaurant);
+	public abstract String updateRestaurant(int restaurantId, String restaurantType, String restaurantName);
 
-	public abstract void deleteByRestaurtantId(int restaurantId);
+	public abstract String deleteRestaurtant(int restaurantId);
 
 }

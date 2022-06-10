@@ -27,7 +27,9 @@ public class Customers {
 
 	private String customerName;
 
-	private String customerOrder;
+	private String customerEmail;
+
+	private String customerMobile;
 
 	@ManyToOne
 	@JsonBackReference(value = "restaurantcustomers")
@@ -43,12 +45,13 @@ public class Customers {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Customers(int customerId, String customerName, String customerOrder, Restaurant restaurant,
-			List<Orders> orders) {
+	public Customers(int customerId, String customerName, String customerEmail, String customerMobile,
+			Restaurant restaurant, List<Orders> orders) {
 		super();
 		this.customerId = customerId;
 		this.customerName = customerName;
-		this.customerOrder = customerOrder;
+		this.customerEmail = customerEmail;
+		this.customerMobile = customerMobile;
 		this.restaurant = restaurant;
 		this.orders = orders;
 	}
@@ -69,12 +72,20 @@ public class Customers {
 		this.customerName = customerName;
 	}
 
-	public String getCustomerOrder() {
-		return customerOrder;
+	public String getCustomerEmail() {
+		return customerEmail;
 	}
 
-	public void setCustomerOrder(String customerOrder) {
-		this.customerOrder = customerOrder;
+	public void setCustomerEmail(String customerEmail) {
+		this.customerEmail = customerEmail;
+	}
+
+	public String getCustomerMobile() {
+		return customerMobile;
+	}
+
+	public void setCustomerMobile(String customerMobile) {
+		this.customerMobile = customerMobile;
 	}
 
 	public Restaurant getRestaurant() {

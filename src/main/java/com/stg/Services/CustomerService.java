@@ -6,15 +6,14 @@ import com.stg.entity.Customers;
 
 public interface CustomerService {
 
-	public abstract Customers checkCustomer(int customerId, String customerName); // validation
+	public abstract Customers findCustomer(int customerId, String customerName); // validation
 
 	public abstract List<Customers> fetchCustomerList(); // read
 
 	public abstract Customers addCustomer(Customers customer); // add
 
-	public abstract List<Customers> searchByIdAndCustName(int customerId, String customerName); // search
+	public abstract String updateCustomer(int customerId, String customerName, String customerEmail,
+			String customerMobile); // update
 
-	public abstract Customers updateCustomer(Customers customer); // update
-
-	public abstract void deleteByCustId(int customerId); // delete
+	public abstract String deleteByCustomerId(int customerId); // delete
 }

@@ -16,16 +16,14 @@ public class TablesServiceImpl implements TablesService {
 	private TablesRepository tableRepository;
 
 	@Override
-	public boolean checkRestaurantTable(int tableNo) {
+	public Tables findTable(int tableNo) {
 
-		boolean isAvailable = tableRepository.existsById(tableNo);
-		if (isAvailable == false) {
-
-			throw new CustomException("");
+		Tables checkTable = tableRepository.findByTableNo(tableNo);
+		if (checkTable == null) {
+			throw new CustomException("Employee not found!");
+		} else {
+			return checkTable;
 		}
-
-		return true;
-
 	}
 
 	@Override
@@ -41,9 +39,21 @@ public class TablesServiceImpl implements TablesService {
 	}
 
 	@Override
-	public Tables updateRestaurantTables(Tables tables) {
+	public String updateTables(int tableNo, int tableOccupanyNo) {
 
-		return tableRepository.save(tables);
+		{
+			Tables tables = tableRepository.findByTableNo(tableNo);
+
+			if (tables != null) {
+				tables.setTableOccupanyNo(tableOccupanyNo);
+				return "table is updated!";
+			} else {
+				throw new CustomException("table is not found!");
+
+			}
+
+		}
+
 	}
 
 }

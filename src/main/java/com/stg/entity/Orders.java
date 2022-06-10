@@ -24,8 +24,6 @@ public class Orders {
 
 	private String orderType;
 
-	private int orderNumber;
-
 	private String orderDescription;
 
 	@ManyToOne
@@ -43,12 +41,11 @@ public class Orders {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Orders(@NotEmpty(message = "customer order id is required !") int orderId, String orderType, int orderNumber,
+	public Orders(@NotEmpty(message = "customer order id is required !") int orderId, String orderType,
 			String orderDescription, Restaurant restaurant, Customers customers) {
 		super();
 		this.orderId = orderId;
 		this.orderType = orderType;
-		this.orderNumber = orderNumber;
 		this.orderDescription = orderDescription;
 		this.restaurant = restaurant;
 		this.customers = customers;
@@ -68,14 +65,6 @@ public class Orders {
 
 	public void setOrderType(String orderType) {
 		this.orderType = orderType;
-	}
-
-	public int getOrderNumber() {
-		return orderNumber;
-	}
-
-	public void setOrderNumber(int orderNumber) {
-		this.orderNumber = orderNumber;
 	}
 
 	public String getOrderDescription() {

@@ -7,8 +7,10 @@ import com.stg.entity.Employees;
 @Repository
 public interface EmployeesRepository extends JpaRepository<Employees, Integer> {
 
+	public Employees findByEmployeeId(int employeeId);
+
 	public Employees findByEmployeeIdAndEmployeeName(int employeeId, String employeeName);
 
-	public void deleteByEmployeeId(int employeeId);
+	public Employees deleteByEmployeeId(int employeeId);
 
 }

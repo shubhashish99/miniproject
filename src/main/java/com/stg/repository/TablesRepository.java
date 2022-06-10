@@ -6,4 +6,5 @@ import com.stg.entity.Tables;
 
 public interface TablesRepository extends JpaRepository<Tables, Integer> {
 
+	public Tables findByTableNo(int tableNo);
 }

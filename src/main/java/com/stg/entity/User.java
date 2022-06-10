@@ -30,6 +30,9 @@ public class User {
 	@Column(nullable = false)
 	private String userPassword;
 
+	@Column(nullable = false)
+	private String userEmail;
+
 	@JsonSerialize(contentUsing = MySerializer.class)
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "restaurantId", referencedColumnName = "restaurantId")
@@ -41,11 +44,13 @@ public class User {
 	}
 
 	public User(int userId, @NotEmpty(message = "please providsde a UserName") String userName,
-			@NotEmpty(message = "please providsde a UserPassword") String userPassword, Restaurant restaurant) {
+			@NotEmpty(message = "please providsde a UserPassword") String userPassword, String userEmail,
+			Restaurant restaurant) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
 		this.userPassword = userPassword;
+		this.userEmail = userEmail;
 		this.restaurant = restaurant;
 	}
 
@@ -71,6 +76,14 @@ public class User {
 
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
 
 	public Restaurant getRestaurant() {

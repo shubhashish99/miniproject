@@ -15,7 +15,7 @@ public class OrdersServiceImpl implements OrdersService {
 	private OrdersRepository ordersRepository;
 
 	@Override
-	public Orders checkOrders(int orderId) {
+	public Orders findOrders(int orderId) {
 
 		Orders orders = (Orders) ordersRepository.findByOrderId(orderId);
 		if (orders == null) {
@@ -39,20 +39,29 @@ public class OrdersServiceImpl implements OrdersService {
 	}
 
 	@Override
-	public List<Orders> searchByOrderId(int orderId) {
+	public String updateOrders(int orderId, String orderType, String orderDescription) {
 
-		return ordersRepository.findByOrderId(orderId);
+		Orders orders = ordersRepository.findByOrderId(orderId);
+		if (orders != null) {
+
+			orders.setOrderType(orderType);
+			orders.setOrderDescription(orderDescription);
+			return "Order details are updated!";
+
+		} else {
+			throw new CustomException("Order not found!");
+		}
 	}
 
 	@Override
-	public Orders updateOrders(Orders orders) {
-
-		return ordersRepository.save(orders);
-	}
-
-	@Override
-	public void deleteByOrderId(int orderId) {
-		ordersRepository.deleteByOrderId(orderId);
+	public String deleteByOrderId(int orderId) {
+		Orders orders = ordersRepository.findByOrderId(orderId);
+		if (orders != null) {
+			ordersRepository.delete(orders);
+			return "order is deleted!";
+		} else {
+			throw new CustomException("Order not found!");
+		}
 
 	}
 

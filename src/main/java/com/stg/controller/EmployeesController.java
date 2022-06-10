@@ -6,27 +6,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.stg.Services.EmployeeService;
 import com.stg.entity.Employees;
 
 @RestController
+@RequestMapping(value = "employee")
+@CrossOrigin("http://localhost:4200/")
 public class EmployeesController {
 
 	@Autowired
 	private EmployeeService employeesService;
 
-	@GetMapping(value = "/checkEmployee", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Employees> checkEmployee(@RequestBody int employeeId, @RequestParam String employeeName) {
+	@GetMapping(value = "/findEmployee/{employeeId}/{employeeName}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Employees> findEmployee(@PathVariable int employeeId, @PathVariable String employeeName) {
 
-		Employees employees = employeesService.checkCEmployee(employeeId, employeeName);
+		Employees employees = employeesService.findEmployee(employeeId, employeeName);
 
 		return new ResponseEntity<Employees>(employees, HttpStatus.OK);
 	}
@@ -47,29 +51,21 @@ public class EmployeesController {
 		return new ResponseEntity<Employees>(employees1, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/searchByIdAndEmpName", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Employees> searchByIdAndEmpName(@RequestBody int employeeId,
-			@RequestParam String employeeName) {
+	@PutMapping(value = "/updateEmployee/{employeeId}/{employeeName}/{employeeEmail}/{employeeMobile}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> updateEmployee(@PathVariable int employeeId, @PathVariable String employeeName,
+			@PathVariable String employeeEmail, @PathVariable String employeeMobile) {
 
-		List<Employees> employees = employeesService.searchByIdAndEmpName(employeeId, employeeName);
+		String employees1 = employeesService.updateEmployee(employeeId, employeeName, employeeEmail, employeeMobile);
 
-		return new ResponseEntity<Employees>((Employees) employees, HttpStatus.OK);
+		return new ResponseEntity<String>(employees1, HttpStatus.OK);
 	}
 
-	@PutMapping(value = "/updateEmployee", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Employees> updateEmployee(@RequestBody Employees employees) {
+	@DeleteMapping(value = "/deleteByEmployeeId/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> deleteByEmployeeId(@PathVariable int employeeId) {
 
-		Employees employees1 = employeesService.updateEmployee(employees);
+		String employee = employeesService.deleteByEmployeeId(employeeId);
 
-		return new ResponseEntity<Employees>(employees1, HttpStatus.OK);
-	}
-
-	@DeleteMapping(value = "/deleteByEmployeeId", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Employees> deleteByEmployeeId(@RequestBody int employeeId) {
-
-		employeesService.deleteByEmployeeId(employeeId);
-
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<String>(employee, HttpStatus.OK);
 	}
 
 }

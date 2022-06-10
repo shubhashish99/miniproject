@@ -15,7 +15,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private EmployeesRepository employeesRepository;
 
 	@Override
-	public Employees checkCEmployee(int employeeId, String employeeName) {
+	public Employees findEmployee(int employeeId, String employeeName) {
 		Employees employees = employeesRepository.findByEmployeeIdAndEmployeeName(employeeId, employeeName);
 
 		if (employees == null) {
@@ -38,20 +38,28 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<Employees> searchByIdAndEmpName(int employeeId, String employeeName) {
+	public String updateEmployee(int employeeId, String employeeName, String employeeEmail, String employeeMobile) {
 
-		return (List<Employees>) employeesRepository.findByEmployeeIdAndEmployeeName(employeeId, employeeName);
+		Employees employees = employeesRepository.findByEmployeeId(employeeId);
+		if (employees != null) {
+			employees.setEmployeeName(employeeName);
+			employees.setEmployeeEmail(employeeEmail);
+			employees.setEmployeeMobile(employeeMobile);
+			return "Employee details are updated!";
+		} else {
+			throw new CustomException("Employee not found!");
+		}
 	}
 
 	@Override
-	public Employees updateEmployee(Employees employees) {
-
-		return employeesRepository.save(employees);
-	}
-
-	@Override
-	public void deleteByEmployeeId(int employeeId) {
-		employeesRepository.deleteByEmployeeId(employeeId);
+	public String deleteByEmployeeId(int employeeId) {
+		Employees employees = employeesRepository.findByEmployeeId(employeeId);
+		if (employees != null) {
+			employeesRepository.delete(employees);
+			return "Employee is deleted!";
+		} else {
+			throw new CustomException("Employee not found!");
+		}
 
 	}
 

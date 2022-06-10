@@ -1,7 +1,5 @@
 package com.stg.Services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +13,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	private RestaurantRepository restaurantRepository;
 
 	@Override
-	public Restaurant checkRestaurant(int restaurantId) {
+	public Restaurant findRestaurant(int restaurantId) {
 		Restaurant restaurant = restaurantRepository.findByRestaurantId(restaurantId);
 
 		if (restaurant == null) {
@@ -26,32 +24,36 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-	public List<Restaurant> fetchRestaurantList() {
-
-		return restaurantRepository.findAll();
-	}
-
-	@Override
-	public List<Restaurant> searchByRestaurantType(String restaurantType) {
-
-		return restaurantRepository.findByRestaurantType(restaurantType);
-	}
-
-	@Override
 	public Restaurant addRestaurant(Restaurant restaurant) {
 
 		return restaurantRepository.save(restaurant);
 	}
 
 	@Override
-	public Restaurant updateRestaurant(Restaurant restaurant) {
+	public String updateRestaurant(int restaurantId, String restaurantType, String restaurantName) {
 
-		return restaurantRepository.save(restaurant);
+		Restaurant restaurant = restaurantRepository.findByRestaurantId(restaurantId);
+		if (restaurant != null) {
+
+			restaurant.setRestaurantName(restaurantName);
+			restaurant.setRestaurantType(restaurantType);
+			restaurantRepository.save(restaurant);
+			return "Restaurant deatils updated ";
+		} else {
+			throw new CustomException("Restaurant not found!");
+		}
+
 	}
 
 	@Override
-	public void deleteByRestaurtantId(int restaurantId) {
-		restaurantRepository.deleteByRestaurantId(restaurantId);
+	public String deleteRestaurtant(int restaurantId) {
+		Restaurant restaurant = restaurantRepository.findByRestaurantId(restaurantId);
+		if (restaurant != null) {
+			restaurantRepository.delete(restaurant);
+			return "Restaurant is deleted!";
+		} else {
+			throw new CustomException("No restaurant found by given id!");
+		}
 
 	}
 

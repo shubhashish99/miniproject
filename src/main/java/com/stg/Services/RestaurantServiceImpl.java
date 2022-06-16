@@ -1,5 +1,8 @@
 package com.stg.Services;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,18 @@ public class RestaurantServiceImpl implements RestaurantService {
 		} else {
 			return restaurant;
 		}
+	}
+
+	@Override
+	public List<Restaurant> getAllRestaurants() {
+		List<Restaurant> restaurants = restaurantRepository.findAll();
+
+		if (restaurants.size() > 0) {
+			return restaurants;
+		} else {
+			return new ArrayList<Restaurant>();
+		}
+
 	}
 
 	@Override

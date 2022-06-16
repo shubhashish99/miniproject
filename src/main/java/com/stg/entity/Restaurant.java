@@ -49,6 +49,10 @@ public class Restaurant {
 	@OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
 	private List<Tables> tables;
 
+	@JsonManagedReference(value = "restaurantsales")
+	@OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+	private List<Sales> sales;
+
 	public Restaurant() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -56,7 +60,7 @@ public class Restaurant {
 
 	public Restaurant(int restaurantId, @NotEmpty(message = "Restaurant name is required !") String restaurantName,
 			String restaurantType, User user, List<Customers> customers, List<Orders> orders, List<Employees> employees,
-			List<Tables> tables) {
+			List<Tables> tables, List<Sales> sales) {
 		super();
 		this.restaurantId = restaurantId;
 		this.restaurantName = restaurantName;
@@ -66,6 +70,7 @@ public class Restaurant {
 		this.orders = orders;
 		this.employees = employees;
 		this.tables = tables;
+		this.sales = sales;
 	}
 
 	public int getRestaurantId() {
@@ -130,6 +135,14 @@ public class Restaurant {
 
 	public void setTables(List<Tables> tables) {
 		this.tables = tables;
+	}
+
+	public List<Sales> getSales() {
+		return sales;
+	}
+
+	public void setSales(List<Sales> sales) {
+		this.sales = sales;
 	}
 
 }

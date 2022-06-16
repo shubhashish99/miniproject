@@ -1,5 +1,7 @@
 package com.stg.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,12 +26,20 @@ public class RestaurantController {
 	@Autowired
 	private RestaurantService restaurantService;
 
-	@GetMapping(value = "/findRestaurant", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/findRestaurant/{restaurantId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Restaurant> findRestaurant(@PathVariable int restaurantId) {
 
 		Restaurant restaurant = restaurantService.findRestaurant(restaurantId);
 
 		return new ResponseEntity<Restaurant>(restaurant, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/getAllRestaurants")
+	public ResponseEntity<List<Restaurant>> getAllRestaurants() {
+
+		List<Restaurant> resList = restaurantService.getAllRestaurants();
+
+		return new ResponseEntity<List<Restaurant>>(resList, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/addRestaurant", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -40,7 +50,7 @@ public class RestaurantController {
 		return new ResponseEntity<Restaurant>(restaurant1, HttpStatus.OK);
 	}
 
-	@PutMapping(value = "/updateRestaurant", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PutMapping(value = "/updateRestaurant/{restaurantId}/{restaurantType}/{restaurantName}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> updateRestaurant(@PathVariable int restaurantId, @PathVariable String restaurantType,
 			@PathVariable String restaurantName) {
 
@@ -49,7 +59,7 @@ public class RestaurantController {
 		return new ResponseEntity<String>(restaurant1, HttpStatus.OK);
 	}
 
-	@DeleteMapping(value = "/deleteRestaurtant", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/deleteRestaurtant/{restaurantId}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> deleteRestaurtant(@PathVariable int restaurantId) {
 
 		String restaurant1 = restaurantService.deleteRestaurtant(restaurantId);
